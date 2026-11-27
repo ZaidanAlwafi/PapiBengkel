@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Demo booking servis kendaraan PapiBengkel.">
+  <title>Booking Servis Kendaraan | PapiBengkel</title>
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Lewati ke formulir booking</a>
+  <header class="site-header">
+    <div class="container topbar">
+      <a class="brand" href="#main"><img src="assets/logo.png" alt="" width="28" height="28">PapiBengkel</a>
+      <nav class="main-links" aria-label="Navigasi utama">
+        <button class="text-button" type="button" data-dialog="workshop-dialog">Cari Bengkel</button>
+        <a href="#layanan" data-stage="1">Layanan</a>
+        <button class="text-button" type="button" data-dialog="help-dialog">Cara Kerja</button>
+      </nav>
+      <button class="button button-outline order-button" type="button" data-dialog="orders-dialog">Pesanan Saya</button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="page-intro">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Lokasi halaman">
+          <button class="text-button" type="button" data-dialog="workshop-dialog">Cari Bengkel</button><span aria-hidden="true">›</span>
+          <span class="breadcrumb-workshop">Bengkel Jaya Motor &amp; Auto Clinic</span><span class="breadcrumb-workshop" aria-hidden="true">›</span>
+          <span aria-current="page">Booking Servis</span>
+        </nav>
+        <div class="heading-row">
+          <div><h1>Booking Servis Kendaraan</h1><p>Pilih layanan, isi informasi kendaraan, lalu tentukan jadwal servis di Bengkel Jaya Motor &amp; Auto Clinic.</p></div>
+          <span class="pill demo-label">Data bengkel dan jadwal demo</span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="step-bar" aria-label="Langkah booking">
+      <div class="container"><ol class="steps" id="steps"></ol></div>
+    </nav>
+
+    <div class="container booking-layout">
+      <form id="booking" class="booking-form" novalidate>
+        <section class="panel stage" id="layanan" data-section="1" aria-labelledby="services-title">
+          <div class="section-heading">
+            <span class="number" aria-hidden="true">1</span>
+            <div><h2 id="services-title" tabindex="-1">Pilih Layanan Servis</h2><p>Pilih satu atau beberapa layanan untuk kendaraanmu.</p></div>
+            <span id="selection-count" class="pill pill-green"></span>
+          </div>
+          <div class="workshop-strip">
+            <img src="assets/bengkel.jpg" alt="Ilustrasi bengkel" width="48" height="48">
+            <div><strong>Bengkel Jaya Motor &amp; Auto Clinic</strong><p>Cilandak Barat, Jakarta Selatan</p></div>
+          </div>
+          <fieldset class="service-fieldset" aria-describedby="services-error">
+            <legend class="sr-only">Layanan servis</legend>
+            <div id="service-list" class="service-list"></div>
+          </fieldset>
+          <p class="error" id="services-error" hidden></p>
+        </section>
+
+        <section class="panel stage" id="kendaraan" data-section="2" aria-labelledby="vehicle-title">
+          <div class="section-heading">
+            <span class="number" aria-hidden="true">2</span>
+            <div><h2 id="vehicle-title" tabindex="-1">Informasi Kendaraan</h2><p>Tentukan kendaraan yang akan diservis.</p></div>
+          </div>
+          <fieldset class="segments">
+            <legend class="sr-only">Sumber informasi kendaraan</legend>
+            <label><input type="radio" name="vehicleMode" value="saved" checked><span>Kendaraan Contoh</span></label>
+            <label><input type="radio" name="vehicleMode" value="new"><span>+ Kendaraan Baru</span></label>
+          </fieldset>
+          <div class="saved-vehicle" id="saved-vehicle">
+            <span class="vehicle-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M5 17v2m14-2v2M5 10l2-5h10l2 5M4 16v-4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4H4Z"/><path d="M7 13h2m6 0h2"/></svg></span>
+            <div><h3>Toyota Avanza Veloz</h3><p>2020 · Otomatis · 1.500 cc</p><div class="vehicle-meta"><span class="plate">B 1234 XYZ</span><span>Odometer 24.350 km</span></div></div>
+            <span class="number saved-check" aria-hidden="true">✓</span>
+          </div>
+          <fieldset class="new-vehicle" id="new-vehicle" hidden disabled>
+            <legend class="sr-only">Data kendaraan baru</legend>
+            <label>Jenis kendaraan<select name="vehicleType"><option>Mobil</option><option>Motor</option></select></label>
+            <label>Nomor polisi<input name="plate" placeholder="B 1234 XYZ" maxlength="14" required></label>
+            <label>Merek<input name="brand" placeholder="Toyota" maxlength="36" required></label>
+            <label>Model dan varian<input name="model" placeholder="Avanza Veloz" maxlength="48" required></label>
+            <label>Tahun pembuatan<input type="number" name="year" min="1900" inputmode="numeric" placeholder="2020" required></label>
+          </fieldset>
+          <p class="error" id="vehicle-error" hidden></p>
+        </section>
+
+        <section class="panel stage" id="jadwal" data-section="3" aria-labelledby="schedule-title">
+          <div class="section-heading">
+            <span class="number" aria-hidden="true">3</span>
+            <div><h2 id="schedule-title" tabindex="-1">Pilih Jadwal Servis</h2><p>Tentukan hari dan jam kedatangan yang sesuai.</p></div>
+            <span class="pill schedule-hours">08.00–17.00 WIB</span>
+          </div>
+          <div class="field-title"><strong>Pilih tanggal kedatangan</strong><span id="month-label"></span></div>
+          <div class="dates" id="dates" role="group" aria-label="Tanggal kedatangan"></div>
+          <div class="field-title"><strong>Pilih sesi dan jam kedatangan</strong></div>
+          <div id="times"></div>
+          <p class="error" id="schedule-error" hidden></p>
+          <label class="notes-label" for="mechanic-notes">Keluhan atau catatan untuk teknisi <span>(opsional)</span></label>
+          <textarea id="mechanic-notes" name="notes" maxlength="300" rows="3" placeholder="Contoh: Rem depan berbunyi saat kendaraan berjalan pelan."></textarea>
+          <div class="notes-meta"><small>Tambahkan keluhan yang perlu diperiksa saat servis.</small><small id="notes-count">0/300</small></div>
+        </section>
+
+        <section class="panel stage" id="review" data-section="4" aria-labelledby="review-title">
+          <div class="section-heading">
+            <span class="number" aria-hidden="true">4</span>
+            <div><h2 id="review-title" tabindex="-1">Ringkasan &amp; Konfirmasi Reservasi</h2><p>Periksa kembali rincian booking sebelum menyimpan.</p></div>
+          </div>
+          <div class="review-grid">
+            <div class="review-box"><div class="row"><h3>Lokasi &amp; waktu</h3><button class="text-button edit" type="button" data-stage="3">Ubah jadwal</button></div><strong>Bengkel Jaya Motor &amp; Auto Clinic</strong><p>Jl. TB Simatupang No. 28, Cilandak Barat</p><div class="review-detail"><strong id="review-schedule"></strong><p id="review-duration"></p></div></div>
+            <div class="review-box"><div class="row"><h3>Kendaraan</h3><button class="text-button edit" type="button" data-stage="2">Ubah kendaraan</button></div><strong id="review-vehicle"></strong><p id="review-vehicle-details"></p><div class="review-detail"><small>Nomor polisi</small><strong id="review-plate" class="plate"></strong></div></div>
+          </div>
+          <div class="review-box review-services"><div class="row"><h3 id="review-service-title">Rincian layanan</h3><button class="text-button edit" type="button" data-stage="1">Ubah layanan</button></div><ul class="line-items" id="review-services"></ul><p class="review-detail" id="review-notes" hidden></p></div>
+          <div class="payment-note"><span aria-hidden="true">✓</span><div><strong>Bayar di bengkel</strong><p>Estimasi biaya servis <strong id="review-total"></strong>. Simulasi booking ini tanpa uang muka.</p></div></div>
+          <div class="form-actions"><p>Reservasi demo disimpan di browser ini.</p><button type="submit" class="button button-accent">Simpan Booking Demo</button></div>
+          <p class="error" id="booking-error" role="alert" hidden></p>
+        </section>
+
+        <section class="panel stage success" id="konfirmasi" data-section="5" aria-labelledby="confirmation-title" hidden>
+          <div class="success-mark" aria-hidden="true">✓</div>
+          <h2 id="confirmation-title" tabindex="-1">Booking Demo Tersimpan</h2>
+          <p>Rincian reservasi ini tersedia di Pesanan Saya.</p>
+          <div class="ticket" id="ticket"></div>
+          <div class="confirmation-actions"><button class="button button-outline" type="button" data-dialog="orders-dialog">Lihat Pesanan Saya</button><button class="button button-accent" type="button" id="new-booking">Buat Booking Baru</button></div>
+        </section>
+      </form>
+
+      <aside class="panel summary" id="summary" aria-labelledby="summary-title">
+        <h2 id="summary-title">Ringkasan Booking</h2>
+        <div class="workshop-strip compact"><img src="assets/bengkel.jpg" alt="" width="48" height="48"><div><strong>Bengkel Jaya Motor</strong><p>Cilandak Barat, Jakarta Selatan</p></div></div>
+        <h3 class="summary-label">Layanan terpilih</h3>
+        <ul class="line-items" id="summary-services"></ul>
+        <dl class="summary-detail"><div><dt>Jadwal</dt><dd id="summary-schedule"></dd></div><div><dt>Kendaraan</dt><dd id="summary-vehicle"></dd></div><div><dt>Estimasi durasi</dt><dd id="summary-duration"></dd></div></dl>
+        <dl class="prices"><div><dt>Subtotal servis</dt><dd id="subtotal"></dd></div><div><dt>Biaya platform</dt><dd><span class="pill pill-green">Gratis</span></dd></div></dl>
+        <div class="total-block"><div><span>Total estimasi pembayaran</span><strong id="summary-total"></strong></div><span class="pill pill-amber">Bayar di bengkel</span></div>
+        <button type="button" class="button button-accent summary-action" id="review-button">Lanjut ke Review Booking</button>
+        <p class="summary-note">Harga dan durasi mengikuti layanan yang dipilih.</p>
+        <p class="sr-only" id="total-announcement" role="status"></p>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-content"><a href="#main" class="brand"><img src="assets/logo.png" alt="" width="28" height="28">PapiBengkel</a><button type="button" class="text-button" data-dialog="help-dialog">Bantuan Booking</button><span>Demo PapiBengkel</span></div></footer>
+
+  <dialog id="workshop-dialog" aria-labelledby="workshop-dialog-title">
+    <div class="dialog-heading"><h2 id="workshop-dialog-title">Cari Bengkel</h2><form method="dialog"><button class="icon-button" aria-label="Tutup">×</button></form></div>
+    <p>Demo ini menampilkan satu bengkel dari desain Stitch.</p>
+    <div class="workshop-strip"><img src="assets/bengkel.jpg" alt="Ilustrasi bengkel" width="48" height="48"><div><strong>Bengkel Jaya Motor &amp; Auto Clinic</strong><p>Cilandak Barat, Jakarta Selatan</p></div></div>
+    <form method="dialog"><button class="button button-accent">Kembali ke Booking</button></form>
+  </dialog>
+  <dialog id="help-dialog" aria-labelledby="help-dialog-title">
+    <div class="dialog-heading"><h2 id="help-dialog-title">Cara Kerja Booking</h2><form method="dialog"><button class="icon-button" aria-label="Tutup">×</button></form></div>
+    <ol class="help-list"><li>Pilih layanan servis dan kendaraan.</li><li>Tentukan tanggal dan jam kedatangan yang tersedia.</li><li>Periksa estimasi biaya dan simpan booking demo.</li></ol>
+    <p>Gunakan data contoh saat mencoba alurnya. Pesanan demo hanya tersimpan di browser ini.</p>
+  </dialog>
+  <dialog id="orders-dialog" aria-labelledby="orders-dialog-title">
+    <div class="dialog-heading"><h2 id="orders-dialog-title">Pesanan Saya</h2><form method="dialog"><button class="icon-button" aria-label="Tutup">×</button></form></div>
+    <div id="orders-list"></div>
+  </dialog>
+  <noscript><p class="no-script">Aktifkan JavaScript untuk mencoba formulir booking.</p></noscript>
+</body>
+</html>
